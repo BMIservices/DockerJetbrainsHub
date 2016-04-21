@@ -9,6 +9,6 @@ Pull the image, create a new container with your data in volumes and start it:
 
 ```bash
 docker pull boutch/jetbrains-hub
-docker create --name jetbrains-hub -p 8080:8080 -v /srv/jetnraons-hub:/var/lib/hub --restart=always boutch/jetbrains-hub
+docker create --name jetbrains-hub -p 8080:8080 -v /srv/jetbrains-hub:/var/lib/hub --restart=always boutch/jetbrains-hub
 docker start jetbrains-hub
 ```
