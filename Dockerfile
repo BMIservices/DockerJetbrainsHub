@@ -16,7 +16,7 @@ ENV APP_HOME /var/lib/$APP_SUFFIX
 # preparing home (data) directory and user+group
 #we are with Alpine linux no /opt
 RUN mkdir $APP_PREFIX
-RUN mkdir $APP_DIR
+#RUN mkdir $APP_DIR
 RUN mkdir $APP_HOME
 #in alpine linux no useradd or groupadd
 RUN addgroup  -S -g $APP_UID $APP_USER
@@ -29,7 +29,7 @@ RUN chown -R $APP_USER:$APP_USER $APP_HOME
 WORKDIR $APP_PREFIX
 RUN apk update && apk add wget
 RUN rm /var/cache/apk/*
-RUN wget -q https://download.jetbrains.com/hub/$APP_VERSION/$APP_DISTFILE && \
+RUN wget -q --no-check-certificate https://download.jetbrains.com/hub/$APP_VERSION/$APP_DISTFILE && \
     unzip -q $APP_DISTFILE -d $APP_DIR && \
     rm $APP_DISTFILE && \
     rm -rf $APP_DIR/internal/java && \
