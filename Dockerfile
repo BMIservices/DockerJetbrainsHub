@@ -11,14 +11,16 @@ ENV APP_UID 2000
 
 ENV APP_DISTFILE hub-ring-bundle-${APP_BUILD}.zip
 ENV APP_PREFIX /opt
-#we are with alpin linux no /opt
-RUN mkdir /opt
 ENV APP_DIR $APP_PREFIX/$APP_SUFFIX
 ENV APP_HOME /var/lib/$APP_SUFFIX
-
 # preparing home (data) directory and user+group
+#we are with Alpine linux no /opt
+RUN mkdir $APP_PREFIX
+RUN mkdir $APP_DIR
 RUN mkdir $APP_HOME
+#in alpine linux no useradd or groupadd
 RUN addgroup  -S -g $APP_UID $APP_USER
+#without password
 RUN adduser -G $APP_USER -h $APP_HOME -u $APP_UID -D $APP_USER
 RUN chown -R $APP_USER:$APP_USER $APP_HOME
 
