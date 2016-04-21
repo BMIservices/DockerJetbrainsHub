@@ -9,14 +9,15 @@ ENV APP_USER youtrack
 ENV APP_SUFFIX youtrack
 ENV APP_UID 2000
 
-ENV APP_DISTFILE hub-ring-bundle-${APP_BUILD}.zip
+ENV APP_DISTNAME hub-ring-bundle-${APP_BUILD}
+ENV APP_DISTFILE $APP_DISTNAME.zip
 ENV APP_PREFIX /opt
 ENV APP_DIR $APP_PREFIX/$APP_SUFFIX
 ENV APP_HOME /var/lib/$APP_SUFFIX
 # preparing home (data) directory and user+group
 #we are with Alpine linux no /opt
 RUN mkdir -p $APP_PREFIX
-RUN mkdir -p $APP_DIR
+#RUN mkdir -p $APP_DIR
 RUN mkdir $APP_HOME
 #in alpine linux no useradd or groupadd
 RUN addgroup  -S -g $APP_UID $APP_USER
@@ -28,12 +29,13 @@ RUN chown -R $APP_USER:$APP_USER $APP_HOME
 # direct link https://download.jetbrains.com/hub/2.0/hub-ring-bundle-2.0.85.zip
 WORKDIR $APP_PREFIX
 RUN apk update && apk add wget
-RUN rm /var/cache/apk/*
 RUN wget -q --no-check-certificate https://download.jetbrains.com/hub/$APP_VERSION/$APP_DISTFILE && \
-    unzip -q $APP_DISTFILE -d $APP_DIR && \
+    unzip -q $APP_DISTFILE && \
+    mv $APP_DISTNAME $APP_DIR && \
     rm $APP_DISTFILE && \
     rm -rf $APP_DIR/internal/java && \
     chown -R $APP_USER:$APP_USER $APP_DIR
+RUN apk del wget && rm /var/cache/apk/*
 
 USER $APP_USER
 WORKDIR $APP_DIR
@@ -44,7 +46,7 @@ RUN bin/hub.sh configure \
     --logs-dir    $APP_HOME/log \
     --temp-dir    $APP_HOME/tmp \
     --listen-port $APP_PORT \
-    --base-url    http://localhost/
+    --base-url    http://localhost:$APP_PORT/
 
 ENTRYPOINT ["bin/hub.sh"]
 CMD ["run"]
