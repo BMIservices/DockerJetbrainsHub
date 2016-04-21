@@ -5,8 +5,8 @@ MAINTAINER "Michel Buczynski" michel@service-bmi.com
 ENV APP_VERSION 2.0
 ENV APP_BUILD ${APP_VERSION}.85
 ENV APP_PORT 8080
-ENV APP_USER youtrack
-ENV APP_SUFFIX youtrack
+ENV APP_USER hub
+ENV APP_SUFFIX hub
 ENV APP_UID 2000
 
 ENV APP_DISTNAME hub-ring-bundle-${APP_BUILD}
