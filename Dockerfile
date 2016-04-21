@@ -27,6 +27,8 @@ RUN chown -R $APP_USER:$APP_USER $APP_HOME
 # downloading and unpacking the distribution, removing bundled JVMs
 # direct link https://download.jetbrains.com/hub/2.0/hub-ring-bundle-2.0.85.zip
 WORKDIR $APP_PREFIX
+RUN apk update && apk add wget
+RUN rm /var/cache/apk/*
 RUN wget -q https://download.jetbrains.com/hub/$APP_VERSION/$APP_DISTFILE && \
     unzip -q $APP_DISTFILE -d $APP_DIR && \
     rm $APP_DISTFILE && \
